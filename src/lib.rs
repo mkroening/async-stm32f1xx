@@ -3,8 +3,8 @@
 //! This crate provides [`futures`]-based abstractions for asynchronous programming with peripherals from [`stm32f1xx_hal`]:
 //!
 //! - [`AsyncTimer`](crate::timer::AsyncTimer) allows delaying the current task, wrapping [`Timer`](stm32f1xx_hal::timer::Timer).
-//! - [`TxSink`](crate::serial::TxSink) allows [`futures::sink::Sink`]-based USART transmissions, wrapping [`TxDma`](stm32f1xx_hal::dma::TxDma).
-//! - [`RxStream`](crate::serial::RxStream) allows [`futures::stream::Stream`]-based USART receives, wrapping [`RxDma`](stm32f1xx_hal::dma::RxDma).
+//! - [`TxSink`](crate::serial::TxSink) allows [`Sink`](futures::sink::Sink)-based USART transmissions, wrapping [`TxDma`](stm32f1xx_hal::dma::TxDma).
+//! - [`RxStream`](crate::serial::RxStream) allows [`Stream`](futures::stream::Stream)-based USART receives, wrapping [`RxDma`](stm32f1xx_hal::dma::RxDma).
 //!
 //! To properly schedule wakeups, this crate implements the following interrupts:
 //!
