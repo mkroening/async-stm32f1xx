@@ -247,7 +247,7 @@ macro_rules! rx_stream {
                 }
 
                 fn size_hint(&self) -> (usize, Option<usize>) {
-                    (usize::max_value(), None)
+                    (usize::MAX, None)
                 }
             }
 
