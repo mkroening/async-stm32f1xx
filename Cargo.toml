@@ -16,7 +16,7 @@ cortex-m-rt = "0.6"
 embedded-hal = "0.2"
 futures = { version = "0.3", default-features = false }
 nb = "0.1"
-stm32f1xx-hal = { version = "0.5", features = ["rt"] }
+stm32f1xx-hal = { version = "0.6", features = ["rt"] }
 void = { version = "1.0", default-features = false }
 
 [dev-dependencies.async-embedded]
@@ -26,7 +26,7 @@ rev = "4caea4669dd34c4e0787dd75a90efe4677e49727"
 [dev-dependencies]
 cortex-m-semihosting = "0.3"
 panic-semihosting = "0.5"
-stm32f1xx-hal = { version = "0.5", features = ["stm32f103", "medium"] }
+stm32f1xx-hal = { version = "0.6", features = ["stm32f103", "medium"] }
 
 [profile.release]
 codegen-units = 1
