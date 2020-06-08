@@ -9,7 +9,7 @@ use core::{
 };
 use futures::{
     sink::{Sink, SinkExt},
-    stream::Stream,
+    stream::{FusedStream, Stream},
 };
 use stm32f1xx_hal::{
     dma::{self, CircBuffer, CircReadDma, Event, Half, Transfer, WriteDma, R},
@@ -244,6 +244,20 @@ macro_rules! rx_stream {
                         }
                         Err(err) => Poll::Ready(Some(Err(err))),
                     }
+                }
+
+                fn size_hint(&self) -> (usize, Option<usize>) {
+                    (usize::max_value(), None)
+                }
+            }
+
+
+            impl<BUF> FusedStream for $RxStreamX<BUF>
+            where
+                BUF: Copy,
+            {
+                fn is_terminated(&self) -> bool {
+                    false
                 }
             }
         )+
