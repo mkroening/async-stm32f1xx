@@ -219,7 +219,7 @@ macro_rules! rx_stream {
 
             impl<BUF> Stream for $RxStreamX<BUF>
             where
-                BUF: Copy,
+                BUF: Clone,
             {
                 type Item = Result<BUF, dma::Error>;
 
@@ -229,7 +229,7 @@ macro_rules! rx_stream {
                         if half == last_read_half {
                             None
                         } else {
-                            Some((*buf, half))
+                            Some((buf.clone(), half))
                         }
                     });
 
@@ -254,7 +254,7 @@ macro_rules! rx_stream {
 
             impl<BUF> FusedStream for $RxStreamX<BUF>
             where
-                BUF: Copy,
+                BUF: Clone,
             {
                 fn is_terminated(&self) -> bool {
                     false
