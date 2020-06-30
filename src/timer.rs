@@ -25,6 +25,12 @@ use stm32f1xx_hal::{
 /// ```
 pub struct AsyncTimer<T>(T);
 
+impl<T> AsRef<T> for AsyncTimer<T> {
+    fn as_ref(&self) -> &T {
+        &self.0
+    }
+}
+
 impl<T> AsMut<T> for AsyncTimer<T> {
     fn as_mut(&mut self) -> &mut T {
         &mut self.0
@@ -50,6 +56,12 @@ where
 /// [`delay_for`]: AsyncTimer::delay_for
 #[must_use = "futures do nothing unless you `.await` or poll them"]
 pub struct Delay<'a, T>(&'a mut T);
+
+impl<T> AsRef<T> for Delay<'_, T> {
+    fn as_ref(&self) -> &T {
+        &self.0
+    }
+}
 
 impl<T> AsMut<T> for Delay<'_, T> {
     fn as_mut(&mut self) -> &mut T {
