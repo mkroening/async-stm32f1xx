@@ -65,5 +65,6 @@ macro_rules! waker_interrupt {
     }};
 }
 
+pub mod exti;
 pub mod serial;
 pub mod timer;
