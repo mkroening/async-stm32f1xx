@@ -21,7 +21,7 @@ void = { version = "1.0", default-features = false }
 
 [dev-dependencies.async-embedded]
 git = "https://github.com/rust-embedded-community/async-on-embedded"
-rev = "4caea4669dd34c4e0787dd75a90efe4677e49727"
+rev = "17aa0f6ef1f1e3639acbce28093c6c30aacaf2c9"
 
 [dev-dependencies]
 cortex-m-semihosting = "0.3"
