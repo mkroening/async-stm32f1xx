@@ -26,8 +26,9 @@
 
 use async_embedded::{task, unsync::Mutex};
 use cortex_m_rt::entry;
-use cortex_m_semihosting::hprintln;
-use panic_semihosting as _; // panic handler
+use defmt::info;
+use defmt_rtt as _; // global logger
+use panic_probe as _; // panic handler
 use stm32f1xx_hal as _; // memory layout
 
 #[entry]
@@ -37,26 +38,26 @@ fn main() -> ! {
     let mut lock = X.try_lock().unwrap();
 
     let a = async {
-        hprintln!("Task `a` will write now.").ok();
+        info!("Task `a` will write now.");
         *lock = 42;
 
         drop(lock);
-        hprintln!("Task `a` has dropped the lock.").ok();
+        info!("Task `a` has dropped the lock.");
 
         loop {
-            hprintln!("Task `a` will yield now.").ok();
+            info!("Task `a` will yield now.");
             task::r#yield().await;
         }
     };
     task::spawn(a);
 
     let b = async {
-        hprintln!("Task `b` will asynchronously lock the mutex now.").ok();
+        info!("Task `b` will asynchronously lock the mutex now.");
         // If the mutex can not be locked immediately, this yields.
         let lock = X.lock().await;
-        hprintln!("Task `b`: *lock = {:?}", *lock).ok();
+        info!("Task `b`: *lock = {:?}", *lock);
 
-        hprintln!("Task `b` will not yield again.").ok();
+        info!("Task `b` will not yield again.");
         loop {}
     };
     task::block_on(b)

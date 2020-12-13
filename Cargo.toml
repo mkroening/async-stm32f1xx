@@ -24,10 +24,17 @@ git = "https://github.com/rust-embedded-community/async-on-embedded"
 rev = "aa43ccddffb8ba0460c49bcfe61cba24d966db6c"
 
 [dev-dependencies]
-cortex-m-semihosting = "0.3"
-panic-semihosting = "0.5"
 stm32f1xx-hal = { version = "0.6", features = ["stm32f103", "medium"] }
+defmt = "0.1"
+defmt-rtt = "0.1"
+panic-probe = { version = "0.1", features = ["print-defmt"] }
+
+[features]
+# set logging levels here
+default = ["defmt-default"]
+defmt-default = []
 
 [profile.release]
 codegen-units = 1
+debug = 2
 lto = true

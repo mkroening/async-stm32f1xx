@@ -24,9 +24,7 @@ Most of `async-on-embedded`'s examples have been successfully ported to this pro
 
 ### Requirements
 
-* [OpenOCD](http://openocd.org/).
-
-* [`arm-none-eabi-gdb`](https://www.gnu.org/software/gdb/)
+* [probe-run](https://github.com/knurling-rs/probe-run)
 
 ### Adjusting to your hardware
 
@@ -34,17 +32,9 @@ The [memory region information](memory.x) included in this repository matches th
 You may need to adjust it according to your hardware.
 For more information see [`cortex-m-quickstart`](https://github.com/rust-embedded/cortex-m-quickstart).
 
-### Starting the GDB Server
-
-Start OpenOCD by replacing `$INTERFACE` with your debug probe (e.g. `stlink-v2.cfg`) and running:
-
-``` 
-$ openocd -f interface/$INTERFACE.cfg -f target/stm32f1x.cfg
-```
-
 ### Running
 
-You can now run the example via GDB:
+You can run the example via cargo:
 
 ``` 
 $ cargo run --example <NAME> [--release]

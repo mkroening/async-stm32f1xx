@@ -18,9 +18,10 @@
 use async_embedded::task;
 use core::cell::{Cell, RefCell};
 use cortex_m_rt::entry;
-use cortex_m_semihosting::hprintln;
-use panic_semihosting as _; // panic handler
-use stm32f1xx_hal as _; // memory layout
+use defmt::{consts, info, Debug2Format};
+use defmt_rtt as _; // global logger
+use panic_probe as _;
+use stm32f1xx_hal as _; // memory layout // panic handler
 
 #[entry]
 fn main() -> ! {
@@ -34,27 +35,30 @@ fn main() -> ! {
     let ref_cell: &'static RefCell<_> = REF_CELL;
 
     let a = async move {
-        hprintln!("Task `a`: cell = {:?}", cell).ok();
-        hprintln!("Task `a`: ref_cell = {:?}", ref_cell).ok();
+        info!("Task `a`: cell = {:?}", Debug2Format::<consts::U64>(cell));
+        info!(
+            "Task `a`: ref_cell = {:?}",
+            Debug2Format::<consts::U64>(ref_cell)
+        );
 
         loop {
-            hprintln!("Task `a` will yield now.").ok();
+            info!("Task `a` will yield now.");
             task::r#yield().await;
         }
     };
     task::spawn(a);
 
     let b = async {
-        hprintln!("Task `b` will set cell now.").ok();
+        info!("Task `b` will set cell now.");
         cell.set(42);
 
-        hprintln!("Task `b` will set ref_cell now.").ok();
+        info!("Task `b` will set ref_cell now.");
         *ref_cell.borrow_mut() = Some(42);
 
-        hprintln!("Task `b` will yield now.").ok();
+        info!("Task `b` will yield now.");
         task::r#yield().await;
 
-        hprintln!("Task `b` will not yield again.").ok();
+        info!("Task `b` will not yield again.");
         loop {}
     };
     task::block_on(b)

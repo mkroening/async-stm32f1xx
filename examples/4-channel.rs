@@ -16,8 +16,9 @@
 
 use async_embedded::{task, unsync::Channel};
 use cortex_m_rt::entry;
-use cortex_m_semihosting::hprintln;
-use panic_semihosting as _; // panic handler
+use defmt::info;
+use defmt_rtt as _; // global logger
+use panic_probe as _; // panic handler
 use stm32f1xx_hal as _; // memory layout
 
 #[entry]
@@ -29,24 +30,24 @@ fn main() -> ! {
     let channel: &'static _ = CHANNEL;
 
     let a = async move {
-        hprintln!("Task `a` will send a message now.").ok();
+        info!("Task `a` will send a message now.");
         channel.send(42).await;
-        hprintln!("Task `a` has sent the message.").ok();
+        info!("Task `a` has sent the message.");
 
         loop {
-            hprintln!("Task `a` will yield now.").ok();
+            info!("Task `a` will yield now.");
             task::r#yield().await;
         }
     };
     task::spawn(a);
 
     let b = async move {
-        hprintln!("Task `b` will start asynchronously receiving a message now.").ok();
+        info!("Task `b` will start asynchronously receiving a message now.");
         // If no message can be received immediately, this yields.
         let msg = channel.recv().await;
-        hprintln!("Task `b`: msg = {:?}", msg).ok();
+        info!("Task `b`: msg = {:?}", msg);
 
-        hprintln!("Task `b` will not yield again.").ok();
+        info!("Task `b` will not yield again.");
         loop {}
     };
     task::block_on(b)
