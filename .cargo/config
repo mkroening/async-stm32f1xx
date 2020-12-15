@@ -1,7 +1,9 @@
 [target.thumbv7m-none-eabi]
-runner = "arm-none-eabi-gdb"
+runner = "probe-run --chip STM32F103C8 --defmt"
+
 rustflags = [
   "-C", "link-arg=-Tlink.x",
+  "-C", "link-arg=-Tdefmt.x",
 ]
 
 [build]

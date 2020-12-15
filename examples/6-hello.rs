@@ -8,8 +8,9 @@
 use async_embedded::task;
 use async_stm32f1xx::{serial::TxSink3, timer::AsyncTimer};
 use cortex_m_rt::entry;
+use defmt_rtt as _; // global logger
 use futures::sink::SinkExt;
-use panic_semihosting as _; // panic handler
+use panic_probe as _; // panic handler
 use stm32f1xx_hal::{
     gpio::State,
     pac::Peripherals,
@@ -22,6 +23,10 @@ use stm32f1xx_hal::{
 fn main() -> ! {
     // Extract needed peripherals
     let dp = Peripherals::take().unwrap();
+
+    // Avoid AHB going into low-power mode causing RTT to stop working
+    dp.RCC.ahbenr.modify(|_, w| w.dma1en().enabled());
+
     let rcc = dp.RCC.constrain();
     let mut apb1 = rcc.apb1;
     let mut acr = dp.FLASH.constrain().acr;
