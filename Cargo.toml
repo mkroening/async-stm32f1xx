@@ -15,7 +15,7 @@ as-slice = "0.1"
 cortex-m-rt = "0.6"
 embedded-hal = "0.2"
 futures = { version = "0.3", default-features = false }
-nb = "0.1"
+nb = "1.0"
 stm32f1xx-hal = { version = "0.6", features = ["rt"] }
 void = { version = "1.0", default-features = false }
 
