@@ -14,9 +14,10 @@ keywords = ["arm", "async", "cortex-m", "stm32"]
 as-slice = "0.1"
 cortex-m-rt = "0.6"
 embedded-hal = "0.2"
+embedded-dma = "0.1"
 futures = { version = "0.3", default-features = false }
-nb = "0.1"
-stm32f1xx-hal = { version = "0.6", features = ["rt"] }
+nb = "1.0"
+stm32f1xx-hal = { version = "0.7", features = ["rt"] }
 void = { version = "1.0", default-features = false }
 
 [dev-dependencies.async-embedded]
@@ -24,7 +25,7 @@ git = "https://github.com/rust-embedded-community/async-on-embedded"
 rev = "aa43ccddffb8ba0460c49bcfe61cba24d966db6c"
 
 [dev-dependencies]
-stm32f1xx-hal = { version = "0.6", features = ["stm32f103", "medium"] }
+stm32f1xx-hal = { version = "0.7", features = ["stm32f103", "medium"] }
 defmt = "0.1"
 defmt-rtt = "0.1"
 panic-probe = { version = "0.1", features = ["print-defmt"] }
