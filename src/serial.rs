@@ -1,18 +1,19 @@
 //! [`Stream`]/[`Sink`]-based abstractions for DMA-based Serial Communication (USART).
 
-use as_slice::{AsMutSlice, AsSlice};
+use as_slice::AsMutSlice;
 use core::{
     convert::Infallible,
     future::Future,
     pin::Pin,
     task::{Context, Poll, Waker},
 };
+use embedded_dma::{StaticReadBuffer, StaticWriteBuffer};
 use futures::{
     sink::{Sink, SinkExt},
     stream::{FusedStream, Stream},
 };
 use stm32f1xx_hal::{
-    dma::{self, CircBuffer, CircReadDma, Event, Half, Transfer, WriteDma, R},
+    dma::{self, CircBuffer, CircReadDma, Event, Half, Transfer, TransferPayload, WriteDma, R},
     serial::{RxDma1, RxDma2, RxDma3, TxDma1, TxDma2, TxDma3},
 };
 
@@ -73,9 +74,9 @@ transfer_future!(
 /// }
 /// ```
 #[must_use = "sinks do nothing unless polled"]
-pub struct TxSink<'a, BUF, PAYLOAD>(Option<TxSinkState<'a, BUF, PAYLOAD>>);
+pub struct TxSink<'a, BUF, PAYLOAD: TransferPayload>(Option<TxSinkState<'a, BUF, PAYLOAD>>);
 
-enum TxSinkState<'a, BUF, PAYLOAD> {
+enum TxSinkState<'a, BUF, PAYLOAD: TransferPayload> {
     Ready {
         buf: &'a mut BUF,
         tx: PAYLOAD,
@@ -88,7 +89,7 @@ enum TxSinkState<'a, BUF, PAYLOAD> {
 impl<'a, BUF, PAYLOAD> TxSink<'a, BUF, PAYLOAD>
 where
     TxSink<'a, BUF, PAYLOAD>: Sink<BUF, Error = Infallible>,
-    PAYLOAD: Unpin,
+    PAYLOAD: Unpin + TransferPayload,
 {
     /// Releases the buffer and payload peripheral.
     pub async fn release(mut self) -> (&'a mut BUF, PAYLOAD) {
@@ -103,8 +104,8 @@ where
 
 impl<BUF, PAYLOAD> Sink<BUF> for TxSink<'static, BUF, PAYLOAD>
 where
-    BUF: AsSlice<Element = u8>,
-    PAYLOAD: WriteDma<BUF, &'static mut BUF, u8> + Unpin,
+    &'static mut BUF: StaticReadBuffer<Word = u8>,
+    PAYLOAD: WriteDma<&'static mut BUF, u8> + Unpin,
     TransferFuture<Transfer<R, &'static mut BUF, PAYLOAD>>:
         Future<Output = (&'static mut BUF, PAYLOAD)>,
 {
@@ -197,7 +198,10 @@ macro_rules! rx_stream {
             /// A type shorthand for specifying different DMA channels easily.
             pub type $RxStreamX<BUF> = RxStream<BUF, $rxdma>;
 
-            impl<BUF> $RxStreamX<BUF> {
+            impl<BUF> $RxStreamX<BUF>
+            where
+                &'static mut [BUF; 2]: StaticWriteBuffer<Word = u8>,
+            {
                 /// Creates a new [`RxStream`] from the specified buffers and DMA transmitter.
                 pub fn new(buf: &'static mut [BUF; 2], mut rx: $rxdma) -> Self
                 where

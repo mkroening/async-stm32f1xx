@@ -84,7 +84,7 @@ fn main() -> ! {
         unsafe { &mut BUF }
     };
     let mut tx_sink =
-        TxSink3::new(tx_buf, tx.with_dma(channels.2)).sink_map_err(|_| dma::Error::_Extensible);
+        TxSink3::new(tx_buf, tx.with_dma(channels.2)).sink_map_err(|_| dma::Error::Overrun);
     let rx_buf = {
         static mut BUF: [[u8; 8]; 2] = [[0; 8]; 2];
         // Safety: We only create one mutable reference
