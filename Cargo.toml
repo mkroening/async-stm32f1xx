@@ -11,7 +11,7 @@ categories = ["asynchronous", "embedded", "hardware-support", "no-std"]
 keywords = ["arm", "async", "cortex-m", "stm32"]
 
 [dependencies]
-as-slice = "0.1"
+as-slice = "0.2"
 cortex-m-rt = "0.6"
 embedded-hal = "0.2"
 embedded-dma = "0.1"
