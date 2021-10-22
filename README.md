@@ -1,4 +1,4 @@
-[![Continuous integration](https://github.com/mwkroening/async-stm32f1xx/workflows/Continuous%20integration/badge.svg?branch=master)](https://github.com/mwkroening/async-stm32f1xx/actions?query=workflow%3A%22Continuous+integration%22+branch%3Amaster) [![Version](https://img.shields.io/crates/v/async-stm32f1xx)](https://crates.io/crates/async-stm32f1xx) [![Documentation](https://docs.rs/async-stm32f1xx/badge.svg)](https://docs.rs/async-stm32f1xx) [![License](https://img.shields.io/crates/l/async-stm32f1xx)](#license)
+[![Continuous integration](https://github.com/mwkroening/async-stm32f1xx/workflows/Continuous%20integration/badge.svg?branch=main)](https://github.com/mwkroening/async-stm32f1xx/actions?query=workflow%3A%22Continuous+integration%22+branch%3Amain) [![Version](https://img.shields.io/crates/v/async-stm32f1xx)](https://crates.io/crates/async-stm32f1xx) [![Documentation](https://docs.rs/async-stm32f1xx/badge.svg)](https://docs.rs/async-stm32f1xx) [![License](https://img.shields.io/crates/l/async-stm32f1xx)](#license)
 
 # async-stm32f1xx
 
