@@ -2,7 +2,7 @@
 name = "async-stm32f1xx"
 version = "0.3.0"
 authors = ["Martin Kröning <mkroening@posteo.net>"]
-edition = "2018"
+edition = "2021"
 description = "Abstractions for asynchronous programming on the STM32F1xx family of microcontrollers."
 readme = "README.md"
 repository = "https://github.com/mwkroening/async-stm32f1xx"
