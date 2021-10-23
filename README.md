@@ -8,16 +8,6 @@ This project provides [`futures-rs`](https://github.com/rust-lang/futures-rs)-ba
 It started as an effort to port the [examples from `async-on-embedded`](https://github.com/rust-embedded-community/async-on-embedded/tree/master/nrf52/examples) to the [Blue Pill (`STM32F103C8T6`)](https://stm32-base.org/boards/STM32F103C8T6-Blue-Pill.html) as part of a bachelor's thesis.
 The library is independent of any particular executor, but the [examples](examples) use the [`async-embedded`](https://github.com/rust-embedded-community/async-on-embedded/tree/master/async-embedded) runtime.
 
-## Requirements
-
-Your `rustc` needs to include [rust-lang/rust#69033](https://github.com/rust-lang/rust/pull/69033), so you need at least Rust `nightly-2020-03-22` or Rust 1.44.
-
-Your Rust toolchain needs to support the `thumbv7m-none-eabi` target:
-
-``` 
-$ rustup target add thumbv7m-none-eabi
-```
-
 ## [Examples](examples)
 
 Most of `async-on-embedded`'s examples have been successfully ported to this project.
